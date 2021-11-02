@@ -57,12 +57,12 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // ruta : http://localhost:8080/api/users/delete/[id]
     // espera un id en la ruta
     // retorna el usuario eliminado
-    $routes->delete('users/delete/(:num)','User::delete/$1');
+    $routes->delete('users/delete/(:num)','Users::delete/$1');
 
     // ruta : http://localhost:8080/api/users/login
     // espera un id en la ruta y un json con los datos nick y pass
     // retorna el usuario y abre session??
-    $routes->post('users/login','User::login');
+    $routes->post('users/login','Users::login');
 });
 
 /*
