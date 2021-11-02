@@ -33,6 +33,15 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+//http://localhost:8080/api/
+$routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
+    $routes->get('users', 'Users::index');
+    $routes->post('users/create', 'Users::create');
+    $routes->get('users/edit/(:num)', 'Users::edit/$1');
+    $routes->put('users/update/(:num)','Users::update/$1');
+    $routes->delete('users/delete/(:num)','User::delete/$1');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
