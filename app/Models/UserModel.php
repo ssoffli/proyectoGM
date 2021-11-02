@@ -22,4 +22,12 @@ class UserModel extends Model
     ];
 
     protected $skipValidation = false;
+    
+    public function validate($nick, $pass) {
+        $builder = $this->builder();
+        $builder->getTable('users');
+        $builder->where(" nick = '$nick' AND pass = '$pass'");
+        $query = $builder->get();
+        return $query->getResult('array');
+    }
 }

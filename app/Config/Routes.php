@@ -35,11 +35,34 @@ $routes->get('/', 'Home::index');
 
 //http://localhost:8080/api/
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) {
+    // ruta : http://localhost:8080/api/users 
+    // retorna todos los usuarios
     $routes->get('users', 'Users::index');
+
+    // ruta : http://localhost:8080/api/users/create 
+    // espera un json con los datos role, name, nick, pass
+    // retorna el usuario creado
     $routes->post('users/create', 'Users::create');
+
+    // ruta : http://localhost:8080/api/users/edit/[id]
+    // espera un id en la ruta 
+    // retorna el usuario del id pasado
     $routes->get('users/edit/(:num)', 'Users::edit/$1');
+
+    // ruta : http://localhost:8080/api/users/update/[id]
+    // espera un id en la ruta y un json con los datos role, name, nick, pass
+    // retorna el usuario actualizado
     $routes->put('users/update/(:num)','Users::update/$1');
+
+    // ruta : http://localhost:8080/api/users/delete/[id]
+    // espera un id en la ruta
+    // retorna el usuario eliminado
     $routes->delete('users/delete/(:num)','User::delete/$1');
+
+    // ruta : http://localhost:8080/api/users/login
+    // espera un id en la ruta y un json con los datos nick y pass
+    // retorna el usuario y abre session??
+    $routes->post('users/login','User::login');
 });
 
 /*
