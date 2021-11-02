@@ -97,7 +97,7 @@ class Users extends ResourceController
             $data = $this->request->getJSON();
             $nick = $data->nick;
             $pass = $data->pass;
-            return $this->respond($this->model->login($nick, $pass));
+            return $this->respond($this->model->check($nick, $pass));
         } catch (\Exception $e) {
             return $this->failServerError('Ha ocurrido un error en el servidor');
         }
