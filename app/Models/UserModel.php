@@ -26,8 +26,9 @@ class UserModel extends Model
     public function check($nick, $pass) {
         $builder = $this->builder();
         $builder->getTable('users');
+        $builder->select('id, role, name');
         $builder->where(" nick = '$nick' AND pass = '$pass'");
-        $query = $builder->get();
-        return $query->getResult('array');
+        $users = $builder->get()->getResult('array');
+        return (count($users) > 0)? $users[0] : NULL ;
     }
 }
