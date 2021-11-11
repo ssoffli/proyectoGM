@@ -10,6 +10,11 @@ class Users extends ResourceController
     protected $modelName = 'App\Models\UserModel';
     protected $format    = 'json';
 
+    public function __construct(){
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    }
+
     public function index()
     {
         try{  
@@ -112,16 +117,8 @@ class Users extends ResourceController
         }
     }
 
-    public function login(){
-
+    public function login(){;
         $data = $this->request->getJSON();
-
-        header('Content-type: application/json');
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET");
-        header("Access-Control-Allow-Methods: GET, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
-
         $nick = (isset($data->nick))? $data->nick : NULL;
         $pass = (isset($data->pass))? $data->pass : NULL;
         if($nick == NULL || $pass == NULL){
