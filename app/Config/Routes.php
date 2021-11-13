@@ -80,9 +80,25 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     //  year año de la orden
     //  date fecha
     //  about descripcion sobre la orden
-    //  file  archivo pdf max 10mb
+    //  file  archivo pdf max 2mb
     // con session abierta rol jefatura retorna la orden creada
     $routes->post('orders/create', 'Orders::create');
+
+    // ruta : http://localhost:8080/api/orders/edit/[id]
+    // espera un id en la ruta
+    // con session abierta rol jefatura retorna la orden para editar
+    $routes->get('orders/edit/(:num)','Orders::edit/$1');
+
+    // ruta : http://localhost:8080/api/orders/create
+    // espera un id en la ruta y un form-data con los datos:
+    //  type = { 'od' , 'og', 'or'}  ordern dia , orden guarnicion, orden reservada
+    //  number que es numero de orden
+    //  year año de la orden
+    //  date fecha
+    //  about descripcion sobre la orden
+    //  file  archivo pdf max 2mb
+    // con session abierta rol jefatura
+    $routes->put('orders/update/(:num)', 'Orders::update/$1');
 
     // ruta : http://localhost:8080/api/orders/delete/[id]
     // espera un id en la ruta

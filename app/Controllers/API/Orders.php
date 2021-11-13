@@ -9,9 +9,9 @@ class Orders extends ResourceController
 {
     protected $modelName = 'App\Models\OrderModel';
     protected $format    = 'json';
-    private $upload_path = 'uploads/orders/'; //path for upload
+    private $upload_path = 'public/uploads/orders/'; //path for upload
     private $allowed_types = 'pdf'; //restrict extension
-    private $max_size = 10240;
+    private $max_size = 2048;
 
     public function __construct(){
         header('Access-Control-Allow-Origin: *');
@@ -38,11 +38,15 @@ class Orders extends ResourceController
 			    $name = $type.'_'.$year.'_'.$number.'.pdf';
 
                 $file = $this->request->getFile('file');
+                if ($file == NULL) {
+                    return $this->failServerError('No cargo un archivo');
+                }
+
                 $ext = $file->getClientExtension();
                 $size = $file->getSize() / 1024;
 
                 if (! $file->isValid() || $ext != $this->allowed_types || $size > $this->max_size) {
-                    return $this->failServerError('No es un archivo valido');
+                    return $this->failServerError('No es un archivo valido debe ser pdf menor 2mb');
                 }
 
                 $date = $this->request->getPost('date');
@@ -59,7 +63,7 @@ class Orders extends ResourceController
 
                 if($this->model->insert($data)){
                     $data['id'] = $this->model->insertID();
-                    if ($file->move($this->upload_path, $name)){
+                    if ($file->move(ROOTPATH.$this->upload_path, $name)){
                         return $this->respondCreated($data);
                     } else {
                         return $this->failServerError('No se pudo cargar el archivo ');
@@ -76,6 +80,90 @@ class Orders extends ResourceController
         }
     }
 
+
+    public function edit($id = NULL)
+    {
+        try {
+            if($this->jefaturaSession()){
+                if($id == NULL){
+                    return $this->failValidationErrors('No se ha pasado un ID valido');
+                }
+                $order = $this->model->find($id);
+                if($order == NULL){
+                    return $this->failNotFound('No se ha encontrado el usuario con el ID: '.$id);
+                } else {
+                    return $this->respond($order);
+                }
+            } else {
+                return $this->failUnauthorized('Acceso no autorizado');
+            }   
+        } catch (\Exception $e) {
+            return $this->failServerError('Ha ocurrido un error en el servidor');
+        }
+    }
+
+    public function update($id = NULL)
+    {
+        try {
+            if($this->jefaturaSession()){
+                if($id == NULL){
+                    return $this->failValidationErrors('No se ha pasado un ID valido');
+                }
+                $order = $this->model->find($id);
+                if($order == NULL){
+                    return $this->failNotFound('No se ha encontrado el usuario con el ID: '.$id);
+                } else {
+                    $type = $this->request->getPost('type');
+                    $year = $this->request->getPost('year'); 
+                    $number = $this->request->getPost('number');
+                    $name = $type.'_'.$year.'_'.$number.'.pdf';
+
+                    $file = $this->request->getFile('file');
+                    if ($file == NULL) {
+                        return $this->failServerError('No cargo un archivo');
+                    }
+                    $ext = $file->getClientExtension();
+                    $size = $file->getSize() / 1024;
+
+                    if (!$file->isValid() || $ext != $this->allowed_types || $size > $this->max_size) {
+                        return $this->failServerError('No es un archivo valido debe ser un pdf de tamaño menor a 2mb');
+                    }
+                
+                    $date = $this->request->getPost('date');
+                    $about =  $this->request->getPost('about');
+                    $path = $this->upload_path . $name;
+                    $data = [
+                        'type' => $type,
+                        'number' => $number,
+                        'year' => $year,
+                        'date' => $date, 
+                        'about' => $about, 
+                        'file_url' => $path
+                    ];
+
+                    if($this->model->update($id, $data)){
+                        unlink(ROOTPATH . $order['file_url']);
+                        if ($file->move(ROOTPATH.$this->upload_path, $name)){
+                            return $this->respondCreated($data);
+                       } else {
+                            return $this->failServerError('No se pudo cargar el archivo ');
+                        }
+                    } else {
+                        return $this->failValidationErrors($this->model->validation->listErrors());
+                    }
+
+                    return $this->respond([]);
+                }
+                
+            } else {
+                return $this->failUnauthorized('Acceso no autorizado');
+            }   
+        } catch (\Exception $e) {
+            return $this->failServerError('Ha ocurrido un error en el servidor');
+        }
+    }
+
+
     public function delete($id = NULL)
     {
         try{
@@ -89,7 +177,7 @@ class Orders extends ResourceController
                 }
                 if($this->model->delete($id)){
                     $path_to_file = $order['file_url'];
-                    !unlink($path_to_file);
+                    unlink(ROOTPATH . $path_to_file);
                     return $this->respondDeleted($order);
                 } else {
                     return $this->failServerError('No se ha podido eliminar el registro');
