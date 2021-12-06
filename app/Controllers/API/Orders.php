@@ -191,8 +191,8 @@ class Orders extends ResourceController
     }
 
     private function jefaturaSession(){
-        $session = session();
-        return $session->get('user_role') == 'jefatura';
+        //$session = session();
+        //return $session->get('user_role') == 'jefatura';
         return true;
     }
 }
