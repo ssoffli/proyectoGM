@@ -104,6 +104,10 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // espera un id en la ruta
     // con session abierta rol jefatura retorna la orden eliminada
     $routes->delete('orders/delete/(:num)','Orders::delete/$1');
+
+    $routes->get('orderviews/index/(:num)', 'OrderViews::index/$1');
+    $routes->get('ordrviews/show/(:num)/(:num)','OrderViews::show/$1/$2');
+    $routes->post('orderviews/create', 'OrderViews::create');
 });
 
 /*
