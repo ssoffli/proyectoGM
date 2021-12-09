@@ -53,12 +53,12 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // espera un id en la ruta y un json con los datos [role = {'admin', 'dependencia', 'jefatura'}, 
     //                                                   name, nick, pass]
     // con session abierta rol admin retorna el usuario actualizado
-    $routes->put('users/update/(:num)','Users::update/$1');
+    $routes->post('users/update/(:num)','Users::update/$1');
 
     // ruta : http://localhost:8080/api/users/delete/[id]
     // espera un id en la ruta
     // con session abierta rol admin retorna el usuario eliminado
-    $routes->delete('users/delete/(:num)','Users::delete/$1');
+    $routes->post('users/delete/(:num)','Users::delete/$1');
 
     // ruta : http://localhost:8080/api/users/login
     // espera json con los datos nick y pass
@@ -98,15 +98,21 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     //  about descripcion sobre la orden
     //  file  archivo pdf max 2mb
     // con session abierta rol jefatura
-    $routes->put('orders/update/(:num)', 'Orders::update/$1');
+    $routes->post('orders/update/(:num)', 'Orders::update/$1');
 
     // ruta : http://localhost:8080/api/orders/delete/[id]
     // espera un id en la ruta
     // con session abierta rol jefatura retorna la orden eliminada
-    $routes->delete('orders/delete/(:num)','Orders::delete/$1');
+    $routes->post('orders/delete/(:num)','Orders::delete/$1');
 
+    //ruta : http://localhost:8080/api/orderviews/index/[order_id]
     $routes->get('orderviews/index/(:num)', 'OrderViews::index/$1');
+
+    //ruta : http://localhost:8080/api/orderviews/show/[order_id]/[user_id]
     $routes->get('ordrviews/show/(:num)/(:num)','OrderViews::show/$1/$2');
+
+    //ruta : http://localhost:8080/api/orderviews/create
+    //datos body json { order_id , user_id }
     $routes->post('orderviews/create', 'OrderViews::create');
 });
 

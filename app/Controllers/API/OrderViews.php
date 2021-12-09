@@ -65,45 +65,17 @@ class OrderViews extends ResourceController
      */
     public function create()
     {
-        //try {
+        try {
             $view = $this->request->getJSON();
             if($this->model->insert($view)){
                 return $this->respondCreated($view);
             } else {
                 return $this->failValidationErrors($this->model->validation->listErrors());
             }
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $this->failServerError('Ha ocurrido un error en el servidor');
-        }*/
+        }
     }
 
-    /**
-     * Return the editable properties of a resource object
-     *
-     * @return mixed
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties
-     *
-     * @return mixed
-     */
-    public function update($id = null)
-    {
-        //
-    }
-
-    /**
-     * Delete the designated resource object from the model
-     *
-     * @return mixed
-     */
-    public function delete($id = null)
-    {
-        //
-    }
+    
 }
