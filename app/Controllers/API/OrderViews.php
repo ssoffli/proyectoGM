@@ -47,17 +47,7 @@ class OrderViews extends ResourceController
             return $this->failServerError('Ha ocurrido un error en el servidor');
         }
     }
-
-    /**
-     * Return a new resource object, with default properties
-     *
-     * @return mixed
-     */
-    public function new()
-    {
-        //
-    }
-
+    
     /**
      * Create a new resource object, from "posted" parameters
      *

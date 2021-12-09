@@ -14,8 +14,9 @@ class Orders extends ResourceController
     private $max_size = 2048;
 
     public function __construct(){
-        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        header("Access-Control-Request-Headers: Content-Type, Content-Length, Accept-Encoding");
     }
 
     public function index()
