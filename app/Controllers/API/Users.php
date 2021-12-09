@@ -160,8 +160,7 @@ class Users extends ResourceController
     }
 
     private function adminSession(){
-        //$session = session();
-        //return $session->get('user_role') == 'admin';
-        return true;
+        $session = session();
+        return $session->get('user_role') == 'admin';
     }
 }
