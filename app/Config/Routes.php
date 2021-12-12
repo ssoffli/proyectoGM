@@ -105,8 +105,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // con session abierta rol jefatura retorna la orden eliminada
     $routes->delete('orders/delete/(:num)','Orders::delete/$1');
 
+    //ruta : http://localhost:8080/api/orderviews/index/[order_id]
     $routes->get('orderviews/index/(:num)', 'OrderViews::index/$1');
+
+    //ruta : http://localhost:8080/api/orderviews/show/[order_id]/[user_id]
     $routes->get('ordrviews/show/(:num)/(:num)','OrderViews::show/$1/$2');
+
+    //ruta : http://localhost:8080/api/orderviews/create
+    //datos body json { order_id , user_id }
     $routes->post('orderviews/create', 'OrderViews::create');
 });
 
