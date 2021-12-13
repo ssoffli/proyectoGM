@@ -64,29 +64,31 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ## CORS Filter for CodeIgniter 4
 
-# Installation
+### Installation
 Require the [agungsugiarto/codeigniter4-cors](https://github.com/agungsugiarto/codeigniter4-cors) package in your composer.json and update your dependencies:
-
+```
 composer require agungsugiarto/codeigniter4-cors
-
-# Global usage
+```
+### Global usage
 To allow CORS for all your routes, first register CorsFilter.php filter at the top of the $aliases property of App/Config/Filter.php class:
-
+```php
 public $aliases = [
     'cors' => \Fluent\Cors\Filters\CorsFilter::class,
     // ...
 ];
+```
 
-# Global restrictions
+### Global restrictions
 Restrict routes based on their URI pattern by editing app/Config/Filters.php and adding them to the $filters array, e.g.:
-
+```php
 public filters = [
     // ...
     'cors' => ['after' => ['api/*']],
 ];
-
-# Configuration
+```
+### Configuration
 
 The defaults are set in config/cors.php. Publish the config to copy the file to your own config:
-
+```
 php spark cors:publish
+```
