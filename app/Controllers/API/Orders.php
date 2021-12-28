@@ -13,10 +13,13 @@ class Orders extends ResourceController
     private $allowed_types = 'pdf'; //restrict extension
     private $max_size = 2048;
 
-    public function index()
+    public function index($type = NULL)
     {
         try{  
-            return $this->respond($this->model->findAll());
+            if($type == NULL || ($type != 'od' && $type != 'og' && $type != 'or')){
+                return $this->failValidationErrors('No se ha pasado un tipo de orden valido');
+            }
+            return $this->respond($this->model->find($type));
         } catch (\Exception $e) {
             return $this->failServerError('Ha ocurrido un error en el servidor');
         }

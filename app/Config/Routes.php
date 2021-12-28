@@ -42,7 +42,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // ruta : http://localhost:8080/api/users/create 
     // espera un json con los datos role, name, nick, pass
     // con session abierta rol admin retorna el usuario creado
-    $routes->post('users/create', 'Users::create');
+    $routes->post('users/create/index/(:type)', 'Users::create/index');
 
     // ruta : http://localhost:8080/api/users/edit/[id]
     // espera un id en la ruta 
@@ -69,9 +69,10 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // cierra la session
     $routes->get('users/logout','Users::logout');
 
-    // ruta : http://localhost:8080/api/orders
+    // ruta : http://localhost:8080/api/orders/[type]
     // con session abierta rol dependencia o jefatura retorna lista de ordenes
-    $routes->get('orders', 'Orders::index');
+    // de acuerdo al type = { 'od' , 'og', 'or'}  de la ordern pasado en la ruta
+    $routes->get('orders/index/(:alpha)', 'Orders::index/$1');
 
     // ruta : http://localhost:8080/api/orders/create
     // espera un form-data con los datos:

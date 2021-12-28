@@ -46,4 +46,13 @@ class OrderModel extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+
+    public function find($type = 'od') {
+        $builder = $this->builder();
+        $builder->getTable('orders');
+        $builder->select('*');
+        $builder->where("type = '$type' ");
+        $orders = $builder->get()->getResult('array');
+        return $orders;
+    }
 }
