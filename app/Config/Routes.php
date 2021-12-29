@@ -72,7 +72,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function($routes) 
     // ruta : http://localhost:8080/api/orders/[type]
     // con session abierta rol dependencia o jefatura retorna lista de ordenes
     // de acuerdo al type = { 'od' , 'og', 'or'}  de la ordern pasado en la ruta
-    $routes->get('orders/index/(:alpha)/(:num)/(:alphanum)', 'Orders::index/$1/$2/$3');
+    $routes->get('orders/index/(:any)', 'Orders::index/$1/$2/$3');
 
     // ruta : http://localhost:8080/api/orders/create
     // espera un form-data con los datos:
